@@ -1,7 +1,6 @@
 package go_transformer
 
 import (
-	"github.com/gin-gonic/gin"
 	"reflect"
 )
 
@@ -15,18 +14,22 @@ func RegisterTransformer(name string, transformer Transformer) {
 /**
  * Entrance
  */
-func Collection(entities interface{}, transformerName string, ctx *gin.Context) []interface{} {
+func Collection(entities interface{}, transformerName string, includeStr string, args ...interface{}) []interface{} {
 	transformer := app.MustGet(PREFIX + transformerName).(Transformer)
-	includeStr := "roles.permissions" //ctx.Param("include")
 	v := reflect.ValueOf(entities)
 	var res []interface{}
 	if v.Kind() != reflect.Slice {
-		panic("entity should be slice")
+		panic("entities should be slice")
 	}
 	for i := 0; i < v.Len(); i++ {
-		res = append(res, transformer.Apply(v.Index(i).Interface(), includeStr, ctx))
+		res = append(res, transformer.Apply(v.Index(i).Interface(), includeStr, args))
 	}
 	return res
+}
+
+func Item(entity interface{}, transformerName string, includeStr string, args ...interface{}) interface{} {
+	transformer := app.MustGet(PREFIX + transformerName).(Transformer)
+	return transformer.Apply(entity, includeStr, args)
 }
 
 func getKeyByName(name string) string {
