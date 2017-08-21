@@ -6,13 +6,13 @@ import (
 	"strings"
 )
 
-type ParseFunc func(transformer Transformer, entity interface{}, includeStr string, args...interface{}) interface{}
+type ParseFunc func(transformer Transformer, entity interface{}, includeStr string, args ...interface{}) interface{}
 
 type Transformer interface {
-	Collection(entities interface{}, transformerName string, includeStr string, args...interface{}) interface{}
-	Item(entities interface{}, transformerName string, includeStr string, args...interface{}) interface{}
-	Apply(entity interface{}, includeStr string, args...interface{}) interface{}
-	Transform(entity interface{}, args...interface{}) map[string]interface{}
+	Collection(entities interface{}, transformerName string, includeStr string, args ...interface{}) interface{}
+	Item(entities interface{}, transformerName string, includeStr string, args ...interface{}) interface{}
+	Apply(entity interface{}, includeStr string, args ...interface{}) interface{}
+	Transform(entity interface{}, args ...interface{}) map[string]interface{}
 	Include(entityName string, parser ParseFunc)
 	RegisterIncluder()
 }
@@ -22,7 +22,7 @@ type Tran struct {
 	ParseFuncs       map[string]ParseFunc
 }
 
-func (t *Tran) Collection(entities interface{}, transformerName string, includeStr string, args...interface{}) interface{} {
+func (t *Tran) Collection(entities interface{}, transformerName string, includeStr string, args ...interface{}) interface{} {
 	transformer := app.MustGet(getKeyByName(transformerName)).(Transformer)
 	v := reflect.ValueOf(entities)
 	var res []interface{}
@@ -36,12 +36,12 @@ func (t *Tran) Collection(entities interface{}, transformerName string, includeS
 	return res
 }
 
-func (t *Tran) Item(entity interface{}, transformerName string, includeStr string, args...interface{}) interface{} {
+func (t *Tran) Item(entity interface{}, transformerName string, includeStr string, args ...interface{}) interface{} {
 	transformer := app.MustGet(getKeyByName(transformerName)).(Transformer)
 	return transformer.Apply(entity, includeStr, args)
 }
 
-func (t *Tran) Apply(entity interface{}, includeStr string, args...interface{}) interface{} {
+func (t *Tran) Apply(entity interface{}, includeStr string, args ...interface{}) interface{} {
 	res := t.Transform(entity, args)
 	for _, str := range strings.Split(includeStr, ";") {
 		first, rest := SplitAttr(str)
@@ -53,7 +53,7 @@ func (t *Tran) Apply(entity interface{}, includeStr string, args...interface{}) 
 	return res
 }
 
-func (t *Tran) Transform(entity interface{}, args...interface{}) map[string]interface{} {
+func (t *Tran) Transform(entity interface{}, args ...interface{}) map[string]interface{} {
 	return Struct2Map(entity)
 }
 
