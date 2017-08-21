@@ -1,11 +1,11 @@
-# Go-transformer
- Go-transformer provides a flexible and automatic transformation layer for complex data output,
+# Amoeba
+ Amoeba provides a flexible and automatic transformation layer for complex data output,
  especial used in RESTful APIs.
  
 # Install
 
 ```
-go get github.com/IamBusy/go-transformer
+go get github.com/IamBusy/amoeba
 ```
 
 # Usage
@@ -19,18 +19,18 @@ In the `init` func, register these transformers with their names. You can give a
 string as the name.
 
 ```apple js
-import github.com/IamBusy/go-transformer"
+import github.com/IamBusy/amoeba"
 
 type UserTransformer struct {
-	go-transformer.Tran
+	amoeba.Tran
 }
 
 type RoleTransformer struct {
-	go-transformer.Tran
+	amoeba.Tran
 }
 
 type PermissionTransformer struct {
-	go-transformer.Tran
+	amoeba.Tran
 }
 
 
@@ -79,7 +79,7 @@ And that's all.
 
 ```
 user := &User{1,"myname}
-fmp.Println(go-transformer.Item(user, "user", "roles.permissions"  [, args] ))
+fmp.Println(amoeba.Item(user, "user", "roles.permissions"  [, args] ))
 ```
 
 With the mock data, you can get the result which is a `map[string]inteface{}` struct on call above function.

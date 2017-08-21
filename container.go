@@ -1,4 +1,4 @@
-package go_transformer
+package amoeba
 
 import (
 	"github.com/drgomesp/cargo/container"
