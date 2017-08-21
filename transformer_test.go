@@ -35,14 +35,14 @@ type PermissionTransformer struct {
 func (user *UserTransformer) RegisterIncluder() {
 	user.Include("roles", func(transformer Transformer, entity interface{}, includeStr string, args ...interface{}) interface{} {
 		roles := []Role{{1, "admin"}, {2, "editor"}}
-		return user.Collection(roles, "role", includeStr, args)
+		return user.Collection(roles, "role", includeStr, args...)
 	})
 }
 
 func (role *RoleTransformer) RegisterIncluder() {
 	role.Include("permissions", func(transformer Transformer, entity interface{}, includeStr string, args ...interface{}) interface{} {
 		permission := []Permission{{1, "update-user"}, {2, "delete-user"}}
-		return role.Collection(permission, "permission", includeStr, args)
+		return role.Collection(permission, "permission", includeStr, args...)
 	})
 }
 

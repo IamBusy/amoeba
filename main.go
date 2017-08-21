@@ -26,14 +26,14 @@ func Collection(entities interface{}, transformerName string, includeStr string,
 		}
 	}
 	for i := 0; i < v.Len(); i++ {
-		res = append(res, transformer.Apply(v.Index(i).Interface(), includeStr, args))
+		res = append(res, transformer.Apply(v.Index(i).Interface(), includeStr, args...))
 	}
 	return res
 }
 
 func Item(entity interface{}, transformerName string, includeStr string, args ...interface{}) interface{} {
 	transformer := app.MustGet(PREFIX + transformerName).(Transformer)
-	return transformer.Apply(entity, includeStr, args)
+	return transformer.Apply(entity, includeStr, args...)
 }
 
 func getKeyByName(name string) string {
