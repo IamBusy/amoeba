@@ -2,6 +2,7 @@ package amoeba
 
 import (
 	"strings"
+	"encoding/json"
 )
 
 type ParseFunc func(transformer Transformer, entity interface{}, includeStr string, args ...interface{}) interface{}
@@ -41,7 +42,15 @@ func (t *Tran) Apply(entity interface{}, includeStr string, args ...interface{})
 }
 
 func (t *Tran) Transform(entity interface{}, args ...interface{}) map[string]interface{} {
-	return Struct2Map(entity)
+	jsonBytes, err := json.Marshal(entity)
+	if err != nil {
+		return nil
+	}
+	var res map[string]interface{}
+	if err := json.Unmarshal(jsonBytes, &res); err != nil {
+		return nil
+	}
+	return res
 }
 
 /**

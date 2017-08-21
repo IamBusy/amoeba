@@ -59,7 +59,7 @@ func (transformer *UserTransformer) RegisterIncluder() {
 		entity := entity.(User)
 		db := args[0].(*gorm.DB)
 		db.Model(&entity).Association("roles").Find(entity.Roles)
-		return transformer.Collection(user.Roles,"role", args)
+		return transformer.Collection(user.Roles,"role", args...)
 	})
 }
 
@@ -68,7 +68,7 @@ func (transformer *RoleTransformer) RegisterIncluder() {
 		entity := entity.(Role)
 		db := args[0].(*gorm.DB)
 		db.Model(&entity).Association("permissions").Find(entity.Permissions)
-		return transformer.Collection(user.Permissions,"permission", args)
+		return transformer.Collection(user.Permissions,"permission", args...)
 	})
 }
 
@@ -79,7 +79,7 @@ And that's all.
 
 ```go
 user := &User{1,"myname}
-fmp.Println(amoeba.Item(user, "user", "roles.permissions"  [, args] ))
+fmt.Println(amoeba.Item(user, "user", "roles.permissions"  [, args] ))
 ```
 
 With the mock data, you can get the result which is a `map[string]inteface{}` struct on call above function.
