@@ -18,7 +18,7 @@ Theses transformers should inherit the `go-transformer.Tran`
 In the `init` func, register these transformers with their names. You can give any
 string as the name.
 
-```apple js
+```go
 import github.com/IamBusy/amoeba"
 
 type UserTransformer struct {
@@ -52,7 +52,7 @@ You can retrieve any parameters from `args` to get the related objects.
 And the args was passed when you call the entrance func `Collection` of `Item`
 
 
-```
+```go
 
 func (transformer *UserTransformer) RegisterIncluder() {
 	transformer.Include("role", func(transformer go_transformer.Transformer, entity interface{}, includeStr string, args ...interface{}) interface{} {
@@ -77,7 +77,7 @@ func (transformer *RoleTransformer) RegisterIncluder() {
 And that's all.
 
 
-```
+```go
 user := &User{1,"myname}
 fmp.Println(amoeba.Item(user, "user", "roles.permissions"  [, args] ))
 ```
