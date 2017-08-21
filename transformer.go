@@ -1,8 +1,6 @@
 package amoeba
 
 import (
-	"fmt"
-	"reflect"
 	"strings"
 )
 
