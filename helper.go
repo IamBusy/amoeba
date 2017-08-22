@@ -40,13 +40,56 @@ func StrFirstToUpper(str string) string {
 	return upperStr
 }
 
-func SplitAttr(target string) (first string, rest string) {
+func clean(target string) string {
+	target = strings.Trim(target," ")
+	start,end := 0,len(target)-1
+	for end > start && target[start] == '(' && target[end] == ')' {
+		start++
+		end--
+	}
+	return target[start:end+1]
+}
+
+func SplitAttrs(includeStr string) (res []string)  {
+	var parentheses = 0
+	var lastSplitPoint = 0
+	for i := 0; i < len(includeStr); i++ {
+		if includeStr[i] == '(' {
+			parentheses++
+			continue
+		}
+
+		if includeStr[i] == ')' {
+			parentheses--
+		}
+
+		if includeStr[i] == ATTR_DELI && parentheses == 0 {
+			res = append(res, clean(includeStr[lastSplitPoint:i]))
+			lastSplitPoint = i+1
+		}
+	}
+	res = append(res, strings.Trim(includeStr[lastSplitPoint:]," "))
+	return
+}
+
+
+func ParseAttrs(target string) (first string, rest string) {
+	var parentheses = 0
 	for i := 0; i < len(target); i++ {
-		if target[i] == '.' {
-			rest = target[i+1:]
+		if target[i] == '(' {
+			parentheses++
+			continue
+		}
+
+		if target[i] == ')' {
+			parentheses--
+		}
+
+		if target[i] == ATTR_DOT && parentheses == 0 {
+			first = target[:i]
+			rest = clean(target[i+1:])
 			return
 		}
-		first += string(target[i])
 	}
 	return
 }
@@ -54,3 +97,4 @@ func SplitAttr(target string) (first string, rest string) {
 func IsSingular(word string) bool {
 	return word == inflection.Singular(word)
 }
+

@@ -5,6 +5,8 @@ import (
 )
 
 const PREFIX = "transformer-"
+const ATTR_DELI  = ','
+const ATTR_DOT  = '.'
 
 func RegisterTransformer(name string, transformer Transformer) {
 	transformer.RegisterIncluder()

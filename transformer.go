@@ -1,7 +1,6 @@
 package amoeba
 
 import (
-	"strings"
 	"encoding/json"
 )
 
@@ -31,8 +30,8 @@ func (t *Tran) Item(entity interface{}, transformerName string, includeStr strin
 
 func (t *Tran) Apply(entity interface{}, includeStr string, args ...interface{}) interface{} {
 	res := t.Transform(entity, args...)
-	for _, str := range strings.Split(includeStr, ",") {
-		first, rest := SplitAttr(str)
+	for _, str := range SplitAttrs(includeStr) {
+		first, rest := ParseAttrs(str)
 		parser, exist := t.ParseFuncs[first]
 		if exist {
 			res[first] = parser(t, entity, rest, args...)
