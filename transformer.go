@@ -31,7 +31,7 @@ func (t *Tran) Item(entity interface{}, transformerName string, includeStr strin
 
 func (t *Tran) Apply(entity interface{}, includeStr string, args ...interface{}) interface{} {
 	res := t.Transform(entity, args...)
-	for _, str := range strings.Split(includeStr, ";") {
+	for _, str := range strings.Split(includeStr, ",") {
 		first, rest := SplitAttr(str)
 		parser, exist := t.ParseFuncs[first]
 		if exist {
