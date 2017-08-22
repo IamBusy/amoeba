@@ -91,7 +91,7 @@ func ParseAttrs(target string) (first string, rest string) {
 			return
 		}
 	}
-	return
+	return target,""
 }
 
 func IsSingular(word string) bool {
